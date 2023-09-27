@@ -14,7 +14,9 @@ int main(){
 
     printf("%d", mult);
 
-    printf("Olá amigos!");
+    printf("amigos!");
+
+    printf("\nBAFWGKDFASFAS");
 
     return 0;
 }
