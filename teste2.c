@@ -13,4 +13,8 @@ int main(){
     mult = x * y;
 
     printf("%d", mult);
+
+    printf("Olá amigos!");
+
+    return 0;
 }
