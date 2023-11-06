@@ -1,0 +1,52 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+//POKEDEX
+typedef struct{
+    int numero;
+    char nome[30];
+    char tipoUm[15];
+    char tipoDois[15];
+    int statusTotal;
+    int hp;
+    int ataque;
+    int defesa;
+    int atqSpec;
+    int defSpec;
+    int velocidade;
+    int geracao;
+    int lendario;
+    char cor[15];
+    float altura;
+    float peso;
+    int taxadeCap;
+    int evolucao;
+    int preEvolucao;
+} Pokemon;
+
+
+void arquivoR(Pokemon *pokemon){
+    int i = 0;
+
+    FILE *arquivo = fopen("pokedex.csv", "r");
+    if(arquivo == NULL){
+        printf("Falha ao abrir o arquivo.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    fscanf(arquivo, "%*[^\n]\n");
+    while(i < 721 && fscanf(arquivo, "%d ,%s ,%s ,%s ,%d ,%d ,%d ,%d ,%d ,%d ,%d ,%d ,%d ,%s ,%f ,%f ,%d", &pokemon->numero, pokemon->nome, pokemon->tipoUm, pokemon->tipoDois, &pokemon->statusTotal, &pokemon->hp, &pokemon->ataque, &pokemon->defesa, &pokemon->atqSpec, &pokemon->defSpec, &pokemon->velocidade, &pokemon->geracao, &pokemon->lendario, pokemon->cor, &pokemon->altura, &pokemon->peso, &pokemon->taxadeCap)){
+        printf("Pokémon: %d, %s, %s, %s, %d, %d, %d, %d, %d, %d, %d, %d, %d, %s, %.2f, %.2f, %d. \n", pokemon->numero, pokemon->nome, pokemon->tipoUm, pokemon->tipoDois, pokemon->statusTotal, pokemon->hp, pokemon->ataque, pokemon->defesa, pokemon->atqSpec, pokemon->defSpec, pokemon->velocidade, pokemon->geracao, pokemon->lendario, pokemon->cor, pokemon->altura, pokemon->peso, pokemon->taxadeCap);
+        i++;
+    }
+
+    fclose(arquivo);
+}
+
+
+int main(){ 
+    Pokemon pokemon;
+
+    arquivoR(&pokemon);
+}
