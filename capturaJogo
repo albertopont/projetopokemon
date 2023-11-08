@@ -16,38 +16,46 @@ double calcularProbabilidadeCaptura(int taxaDeCaptura) {
 int main() {
     int taxaDeCaptura;
     int tentativas = 3; // Número de tentativas
-    int sucesso = 0; // Variável para acompanhar se a captura foi bem-sucedida
 
     // Inicialize a semente para geração de números aleatórios
     srand(time(NULL));
 
-    printf("Digite a taxa de captura do Pokemon (0 a 255): ");
-    scanf("%d", &taxaDeCaptura);
+    int continuarJogando = 1; // Variável para controlar se o jogador quer continuar jogando
 
-    if (taxaDeCaptura < 0 || taxaDeCaptura > 255) {
-        printf("A taxa de captura deve estar no intervalo de 0 a 255. Encerrando o programa.\n");
-        return 1; // Encerra o programa com código de erro
-    }
+    while (continuarJogando) {
+        printf("Digite a taxa de captura do Pokemon (0 a 255): ");
+        scanf("%d", &taxaDeCaptura);
 
-    for (int i = 0; i < tentativas; i++) {
-        double probabilidade = calcularProbabilidadeCaptura(taxaDeCaptura);
-        printf("Tentativa %d - A probabilidade de sucesso na captura é: %.2f%%\n", i + 1, probabilidade * 100);
+        if (taxaDeCaptura < 0 || taxaDeCaptura > 255) {
+            printf("A taxa de captura deve estar no intervalo de 0 a 255. Tente novamente.\n");
+            continue; // Reinicia o loop para solicitar a taxa novamente
+        }
 
-        // Gere um número aleatório entre 0 e 100 para simular o resultado da captura
-        int resultadoCaptura = rand() % 101;
+        for (int i = 0; i < tentativas; i++) {
+            double probabilidade = calcularProbabilidadeCaptura(taxaDeCaptura);
+            printf("Tentativa %d - A probabilidade de sucesso na captura é: %.2f%%\n", i + 1, probabilidade * 100);
 
-        if (resultadoCaptura <= probabilidade * 100) {
-            printf("Tentativa %d - Você conseguiu capturar o Pokemon com sucesso!\n", i + 1);
-            sucesso = 1;
-            break; // Saia do loop se a captura for bem-sucedida
-        } else {
-            printf("Tentativa %d - A captura falhou. O Pokemon escapou.\n", i + 1);
+            // Gere um número aleatório entre 0 e 100 para simular o resultado da captura
+            int resultadoCaptura = rand() % 101;
+
+            if (resultadoCaptura <= probabilidade * 100) {
+                printf("Tentativa %d - Você conseguiu capturar o Pokemon com sucesso!\n", i + 1);
+                break; // Saia do loop de tentativas se a captura for bem-sucedida
+            } else {
+                printf("Tentativa %d - A captura falhou. O Pokemon escapou.\n", i + 1);
+            }
+        }
+
+        printf("Deseja tentar capturar novamente? (1 para Sim, 0 para Não): ");
+        scanf("%d", &continuarJogando);
+
+        if (continuarJogando) {
+            printf("Você tem mais uma chance! Digite a taxa de captura do Pokemon: ");
+            scanf("%d", &taxaDeCaptura);
         }
     }
 
-    if (!sucesso) {
-        printf("Você usou todas as tentativas e não conseguiu capturar o Pokemon. Melhor sorte na próxima vez!\n");
-    }
+    printf("Obrigado por jogar! Encerrando o programa.\n");
 
     return 0;
 }
