@@ -1,0 +1,28 @@
+#include <stdio.h>
+#include <math.h>
+
+// Função para calcular a probabilidade de captura
+double calcularProbabilidadeCaptura(int taxaDeCaptura) {
+    double alpha = log(0.2) / -255; // Calculando o valor de alpha
+
+    // Usando a fórmula para calcular a probabilidade de sucesso
+    double probabilidade = 1 - exp(-alpha * taxaDeCaptura);
+
+    return probabilidade;
+}
+
+int main() {
+    int taxaDeCaptura;
+
+    printf("Digite a taxa de captura do Pokemon: ");
+    scanf("%d", &taxaDeCaptura);
+
+    if (taxaDeCaptura >= 0 && taxaDeCaptura <= 255) {
+        double probabilidade = calcularProbabilidadeCaptura(taxaDeCaptura);
+        printf("A probabilidade de sucesso na captura é: %.2f%%\n", probabilidade * 100);
+    } else {
+        printf("A taxa de captura deve estar no intervalo de 0 a 255.\n");
+    }
+
+    return 0;
+}
