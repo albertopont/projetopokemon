@@ -1,0 +1,141 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+
+#define ARQUIVO_CSV "pokedex.csv"
+
+// Definir a estrutura de dados para armazenar os valores de uma linha do CSV
+typedef struct {
+    int numero;
+    char nome[100];
+    char tipo1[100];
+    char tipo2[15];
+    int statusTotal;
+    int hp;
+    int ataque;
+    int defesa;
+    int atqSpec;
+    int defSpec;
+    int velocidade;
+    int geracao;
+    int lendario;
+    char cor[15];
+    float altura;
+    float peso;
+    int taxadeCap;
+    int evolucao;
+    int preEvolucao;
+} RegistroCSV;
+
+int contarLinhas(FILE *arquivo) {
+    int numLinhas = 0;
+    char c;
+    while ((c = fgetc(arquivo)) != EOF) {
+        if (c == '\n') {
+            numLinhas++;
+        }
+    }
+    // Resetar o ponteiro do arquivo para o início
+    rewind(arquivo);
+    return numLinhas;
+}
+
+void lerLinhaAleatoria(RegistroCSV *registro, int numLinhas) {
+    FILE *arquivo = fopen(ARQUIVO_CSV, "r");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo %s\n", ARQUIVO_CSV);
+        return;
+    }
+
+    // Gerar um índice aleatório
+    srand(time(NULL));
+    int linhaAleatoria = rand() % numLinhas;
+    int linhaAtual = 0;
+
+    while (linhaAtual < linhaAleatoria && fgets(registro->nome, sizeof(registro->nome), arquivo)) {
+        linhaAtual++;
+    }
+
+    // Certifique-se de que a linha foi lida com sucesso
+    if (linhaAtual != linhaAleatoria) {
+        printf("Índice aleatório fora dos limites do arquivo CSV.\n");
+        fclose(arquivo);
+        return;
+    }
+
+    // Use fgets para ler a linha inteira
+    char linha[1024]; // Tamanho máximo de uma linha
+    if (fgets(linha, sizeof(linha), arquivo)) {
+        char *token = strtok(linha, ",");
+        if (token) {
+            registro->numero = atoi(token);
+            token = strtok(NULL, ",");
+            if (token) {
+                strncpy(registro->nome, token, sizeof(registro->nome));
+                token = strtok(NULL, ",");
+                if (token) {
+                    strncpy(registro->tipo1, token, sizeof(registro->tipo1));
+                    // Continue lendo os campos adicionais
+                    token = strtok(NULL, ",");
+                    if (token) {
+                        strncpy(registro->tipo2, token, sizeof(registro->tipo2));
+                        token = strtok(NULL, ",");
+                        registro->statusTotal = atoi(token);
+                        token = strtok(NULL, ",");
+                        registro->hp = atoi(token);
+                        token = strtok(NULL, ",");
+                        registro->ataque = atoi(token);
+                        token = strtok(NULL, ",");
+                        registro->defesa = atoi(token);
+                        token = strtok(NULL, ",");
+                        registro->atqSpec = atoi(token);
+                        token = strtok(NULL, ",");
+                        registro->defSpec = atoi(token);
+                        token = strtok(NULL, ",");
+                        registro->velocidade = atoi(token);
+                        token = strtok(NULL, ",");
+                        registro->geracao = atoi(token);
+                        token = strtok(NULL, ",");
+                        registro->lendario = atoi(token);
+                        token = strtok(NULL, ",");
+                        strncpy(registro->cor, token, sizeof(registro->cor));
+                        token = strtok(NULL, ",");
+                        registro->altura = atof(token);
+                        token = strtok(NULL, ",");
+                        registro->peso = atof(token);
+                        token = strtok(NULL, ",");
+                        registro->taxadeCap = atoi(token);
+                        token = strtok(NULL, ",");
+                        registro->evolucao = atoi(token);
+                        token = strtok(NULL, ",");
+                        registro->preEvolucao = atoi(token);
+                    }
+                }
+            }
+        }
+    }
+
+    fclose(arquivo);
+}
+
+int main() {
+    RegistroCSV registro;
+    int numLinhas = 0;
+
+    FILE *arquivo = fopen(ARQUIVO_CSV, "r");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo %s\n", ARQUIVO_CSV);
+        return 1;
+    }
+
+    numLinhas = contarLinhas(arquivo);
+    fclose(arquivo);
+
+    lerLinhaAleatoria(&registro, numLinhas);
+
+    printf("Número: %d\nNome: %s\nTipo1: %s\nTipo2: %s\nStatus Total: %d\nHP: %d\nAtaque: %d\nDefesa: %d\nAtaque Especial: %d\nDefesa Especial: %d\nVelocidade: %d\nGeração: %d\nLendário: %d\nCor: %s\nAltura: %.2f\nPeso: %.2f\nTaxa de Captura: %d\nEvolução: %d\nPré-evolução: %d\n",
+        registro.numero, registro.nome, registro.tipo1, registro.tipo2, registro.statusTotal, registro.hp, registro.ataque, registro.defesa, registro.atqSpec, registro.defSpec, registro.velocidade, registro.geracao, registro.lendario, registro.cor, registro.altura, registro.peso, registro.taxadeCap, registro.evolucao, registro.preEvolucao);
+
+    return 0;
+}
