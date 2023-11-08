@@ -15,27 +15,37 @@ double calcularProbabilidadeCaptura(int taxaDeCaptura) {
 
 int main() {
     int taxaDeCaptura;
+    int tentativas = 3; // Número de tentativas
 
     // Inicialize a semente para geração de números aleatórios
     srand(time(NULL));
 
-    printf("Digite a taxa de captura do Pokemon (0 a 255): ");
-    scanf("%d", &taxaDeCaptura);
+    printf("Você tem 3 chances para capturar o Pokemon!\n");
 
-    if (taxaDeCaptura >= 0 && taxaDeCaptura <= 255) {
-        double probabilidade = calcularProbabilidadeCaptura(taxaDeCaptura);
-        printf("A probabilidade de sucesso na captura é: %.2f%%\n", probabilidade * 100);
+    for (int i = 0; i < tentativas; i++) {
+        printf("Digite a taxa de captura do Pokemon (0 a 255) para a tentativa %d: ", i + 1);
+        scanf("%d", &taxaDeCaptura);
 
-        // Gere um número aleatório entre 0 e 100 para simular o resultado da captura
-        int resultadoCaptura = rand() % 101;
+        if (taxaDeCaptura >= 0 && taxaDeCaptura <= 255) {
+            double probabilidade = calcularProbabilidadeCaptura(taxaDeCaptura);
+            printf("A probabilidade de sucesso na captura é: %.2f%%\n", probabilidade * 100);
 
-        if (resultadoCaptura <= probabilidade * 100) {
-            printf("Você conseguiu capturar o Pokemon com sucesso!\n");
+            // Gere um número aleatório entre 0 e 100 para simular o resultado da captura
+            int resultadoCaptura = rand() % 101;
+
+            if (resultadoCaptura <= probabilidade * 100) {
+                printf("Você conseguiu capturar o Pokemon com sucesso na tentativa %d!\n", i + 1);
+                break; // Saia do loop se a captura for bem-sucedida
+            } else {
+                printf("A captura falhou na tentativa %d. O Pokemon escapou.\n", i + 1);
+            }
         } else {
-            printf("A captura falhou. O Pokemon escapou.\n");
+            printf("A taxa de captura deve estar no intervalo de 0 a 255. Tente novamente.\n");
         }
-    } else {
-        printf("A taxa de captura deve estar no intervalo de 0 a 255.\n");
+    }
+
+    if (tentativas == 0) {
+        printf("Você usou todas as tentativas e não conseguiu capturar o Pokemon. Melhor sorte na próxima vez!\n");
     }
 
     return 0;
