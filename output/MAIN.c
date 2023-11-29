@@ -2016,6 +2016,8 @@ int main() {
             int NivelPokemon1, NivelPokemon2;
             Vincular_Pokedex_Struct(pokedex, "pokedex.csv");
 
+
+    
             // Declaração das estruturas necessárias
             RegistroCSV registro;
             Escolha escolha;
@@ -2026,6 +2028,8 @@ int main() {
             inicializarMochila(&mochila);
             inicializarColecao(&colecao);
 
+
+    
             Pokemon *pokemon;
             int numAloc;
             char tipoDesejado[15];
