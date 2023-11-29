@@ -2051,18 +2051,22 @@ int main() {
 
     switch (opcao) {
         case 1:
+            do{
+
             printf("Escolha o primeiro Pokémon (índice de 1 a 721): ");
             scanf("%d", &NumeroPokemon1);
+            }while(NumeroPokemon1<1||NumeroPokemon1>721);
 
             printf("Escolha o nivel do primeiro Pokémon: ");
             scanf("%d", &NivelPokemon1);
 
+            do{
             printf("Escolha o segundo Pokémon (índice de 1 a 721): ");
             scanf("%d", &NumeroPokemon2);
+            }while(NumeroPokemon2<1||NumeroPokemon2>721);
 
             printf("Escolha o nivel do segundo Pokémon: ");
             scanf("%d", &NivelPokemon2);
-
 
             if (NumeroPokemon1 >= 1 && NumeroPokemon1 <= MAX_POKEMONS && NumeroPokemon2 >= 1 && NumeroPokemon2 <= MAX_POKEMONS) {
 
